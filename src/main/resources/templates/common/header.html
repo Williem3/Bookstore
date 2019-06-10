@@ -1,0 +1,75 @@
+
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4">
+
+<head th:fragment="common-header">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Willie's Bookstore</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.css" rel="stylesheet"/>
+
+    <!-- Custom styles for this template -->
+    <link href="/css/styles.css" rel="stylesheet"/>
+
+    <link rel="icon" href="/image/apple-touch-icon.png"/>
+</head>
+
+<body>
+<div th:fragment="navbar">
+    <div class="page-top" style="width: 100%; height:100px; background-color: #f46b42;"></div>
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" th:href="@{/}">WILLIE'S BOOKSTORE</a>
+                <button type="button" class="navbar-toggle navbar-collapse" data-toggle="collapse" data-target="#navbar-collapsed-open">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-collapsed-open">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown">
+                        <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle" data-toggle="dropdown" th:href="@{/bookshelf}"
+                           role="button">BOOKS <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{/bookshelf}">Browse the bookshelf</a></li>
+                            <li><a href="#">Store hours &#38; Directions</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <form class="navbar-form">
+                            <div class="form-group">
+                                <input class="form-control" name="keyword" placeholder="Book title" type="text"/>
+                            </div>
+                            <button class="btn btn-default" type="submit">Search</button>
+                        </form>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="./">SHOPPING CART</a></li>
+                    <li><a sec:authorize="isAnonymous()" th:href="@{/login}">ACCOUNT</a></li>
+                    <li><a sec:authorize="isAuthenticated()" th:href="@{/myProfile}">MY ACCOUNT</a></li>
+                    <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">LOGOUT</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+    </nav>
+</div>
+
+
+
+<div th:fragment="body-bottom-scripts">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <script src="/js/bootstrap.js"></script>
+</div>
+</body>
+</html>
