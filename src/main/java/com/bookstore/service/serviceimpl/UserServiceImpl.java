@@ -1,11 +1,10 @@
 package com.bookstore.service.serviceimpl;
 
-import com.bookstore.dao.PasswordResetTokenDAO;
-import com.bookstore.dao.RoleDAO;
-import com.bookstore.dao.UserDAO;
+import com.bookstore.dao.*;
 import com.bookstore.entity.User;
 import com.bookstore.entity.UserBilling;
 import com.bookstore.entity.UserPayment;
+import com.bookstore.entity.UserShipping;
 import com.bookstore.entity.security.PasswordResetToken;
 import com.bookstore.entity.security.UserRole;
 import com.bookstore.service.UserService;
@@ -14,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -23,7 +23,10 @@ public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
     @Autowired
     private RoleDAO roleDAO;
-
+    @Autowired
+    private UserPaymentDAO userPaymentDAO;
+    @Autowired
+    private UserShippingDAO userShippingDAO;
     private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
@@ -78,5 +81,46 @@ public class UserServiceImpl implements UserService {
         userBilling.setUserPayment(userPayment);
         user.getUserPaymentList().add(userPayment);
         userDAO.save(user);
+    }
+
+    @Override
+    public void setUserDefaultPayment(Long userPaymentId, User user) {
+        List<UserPayment> userPaymentList = (List<UserPayment>) userPaymentDAO.findAll();
+
+        for (UserPayment userPayment : userPaymentList) {
+            if (userPayment.getId() == userPaymentId) {
+                userPayment.setDefaultPayment(true);
+                userPaymentDAO.save(userPayment);
+            }
+            else {
+                userPayment.setDefaultPayment(false);
+                userPaymentDAO.save(userPayment);
+            }
+        }
+    }
+
+    @Override
+    public void updateUserShipping(UserShipping userShipping, User user) {
+        userShipping.setUser(user);
+        userShipping.setUserShippingDefault(true);
+        user.getUserShippingList().add(userShipping);
+        userDAO.save(user);
+
+    }
+
+    @Override
+    public void setUserDefaultShipping(Long userShippingId, User user) {
+        List<UserShipping> userShippingList = (List<UserShipping>) userShippingDAO.findAll();
+
+        for (UserShipping userShipping : userShippingList) {
+            if (userShipping.getId() == userShippingId) {
+                userShipping.setUserShippingDefault(true);
+                userShippingDAO.save(userShipping);
+            }
+            else {
+                userShipping.setUserShippingDefault(false);
+                userShippingDAO.save(userShipping);
+            }
+        }
     }
 }

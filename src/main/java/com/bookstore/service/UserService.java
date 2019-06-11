@@ -3,6 +3,7 @@ package com.bookstore.service;
 import com.bookstore.entity.User;
 import com.bookstore.entity.UserBilling;
 import com.bookstore.entity.UserPayment;
+import com.bookstore.entity.UserShipping;
 import com.bookstore.entity.security.PasswordResetToken;
 import com.bookstore.entity.security.UserRole;
 
@@ -23,4 +24,10 @@ public interface UserService {
     User save(User user);
 
     void updateUserBilling(UserBilling userBilling, UserPayment userPayment, User user);
+
+    void setUserDefaultPayment(Long userPaymentId, User user);
+
+    void updateUserShipping(UserShipping userShipping, User user);
+
+    void setUserDefaultShipping(Long userShippingId, User user);
 }
