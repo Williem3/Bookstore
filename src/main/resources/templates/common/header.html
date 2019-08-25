@@ -61,7 +61,7 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="./">SHOPPING CART</a></li>
+                    <li><a th:href="@{/shoppingCart/cart}">SHOPPING CART</a></li>
                     <li><a sec:authorize="isAnonymous()" th:href="@{/login}">ACCOUNT</a></li>
                     <li><a sec:authorize="isAuthenticated()" th:href="@{/myProfile}">MY ACCOUNT</a></li>
                     <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">LOGOUT</a></li>
@@ -76,6 +76,7 @@
 <div th:fragment="body-bottom-scripts">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
     <script src="/js/bootstrap.js"></script>
+    <script th:src="@{/js/scripts.js}"></script>
 
     <!-- data table -->
     <script th:src="@{/js/jquery.dataTables.min.js}"></script>

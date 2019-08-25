@@ -1,10 +1,7 @@
 package com.bookstore.service.serviceimpl;
 
 import com.bookstore.dao.*;
-import com.bookstore.entity.User;
-import com.bookstore.entity.UserBilling;
-import com.bookstore.entity.UserPayment;
-import com.bookstore.entity.UserShipping;
+import com.bookstore.entity.*;
 import com.bookstore.entity.security.PasswordResetToken;
 import com.bookstore.entity.security.UserRole;
 import com.bookstore.service.UserService;
@@ -13,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -53,6 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User createUser(User user, Set<UserRole> userRoles) throws Exception{
         User localUser = userDAO.findByUsername(user.getUsername());
 
@@ -63,6 +63,14 @@ public class UserServiceImpl implements UserService {
                 roleDAO.save(ur.getRole());
             }
             user.getUserRoles().addAll(userRoles);
+
+            ShoppingCart shoppingCart = new ShoppingCart();
+            shoppingCart.setUser(user);
+            user.setShoppingCart(shoppingCart);
+
+            user.setUserShippingList(new ArrayList<UserShipping>());
+            user.setUserPaymentList(new ArrayList<UserPayment>());
+
             localUser = userDAO.save(user);
         }
         return localUser;

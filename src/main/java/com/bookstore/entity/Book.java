@@ -1,8 +1,10 @@
 package com.bookstore.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Book {
@@ -30,6 +32,10 @@ public class Book {
 
     @Transient
     private MultipartFile bookImage;
+
+    @OneToMany(mappedBy = "book")
+    @JsonIgnore
+    private List<BookToCartItem> bookToCartItemList;
 
     public Book() {
     }
@@ -187,5 +193,13 @@ public class Book {
 
     public void setBookImage(MultipartFile bookImage) {
         this.bookImage = bookImage;
+    }
+
+    public List<BookToCartItem> getBookToCartItemList() {
+        return bookToCartItemList;
+    }
+
+    public void setBookToCartItemList(List<BookToCartItem> bookToCartItemList) {
+        this.bookToCartItemList = bookToCartItemList;
     }
 }
